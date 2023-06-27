@@ -1,0 +1,24 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Új felhasználó</title>
+</head>
+<body>
+<h1>Felhasználó létrehozása</h1>
+<div>
+    <form action="#" th:action="@{/user}" th:object="${user}" method="post">
+        <label for="name">Név: </label><input type="text" th:field="*{username}" id="name" autocomplete="off"/><br />
+        <label for="status">Státusz: </label>
+        <select th:field="*{status}" id="status">
+            <option th:each="type : ${T(hu.bearmaster.springtutorial.boot.model.UserStatus).values()}"
+                    th:value="${type}" th:text="${type.name()}">ACTIVE</option>
+        </select>
+        <br/>
+        <input type="submit" value="Létrehozás">
+    </form>
+</div>
+
+<a href="users.html" th:href="@{/users}">Vissza</a>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Felhasználó adatlap</title>
+</head>
+<body>
+<h1>Felhasználó adatlap</h1>
+<div th:if="${user} == null">
+    Nincs ilyen felhasználó!
+</div>
+<div th:if="${user} != null">
+    <div>Név: <span th:text="${user.username}">John Doe</span></div>
+    <div>Státusz: <span th:text="${user.status}">ACTIVE</span></div>
+    <div>Létrehozva: <span th:text="${#temporals.format(user.createdAt, 'yyyy. MMMM dd. HH:mm')}">2023. május 1. 16:48</span></div>
+</div>
+
+<a href="users.html"
+   th:href="@{/users}">Vissza</a>
+
+</body>
+</html>
