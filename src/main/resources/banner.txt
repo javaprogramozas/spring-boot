@@ -1,0 +1,7 @@
+
+  ___ _    ___   ___
+ | _ ) |  / _ \ / __|
+ | _ \ |_| (_) | (_ |
+ |___/____\___/ \___|
+
+App: ${application.version} (Boot: v${spring-boot.version})
