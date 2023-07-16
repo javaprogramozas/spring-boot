@@ -20,11 +20,14 @@ public class HelloController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Value("${hello}")
+    @Value("${hello:}")
     private List<String> helloArgs;
 
-    @Value("${" + CommandLinePropertySource.DEFAULT_NON_OPTION_ARGS_PROPERTY_NAME + "}")
+    @Value("${" + CommandLinePropertySource.DEFAULT_NON_OPTION_ARGS_PROPERTY_NAME + ":}")
     private List<String> nonOptionArgs;
+
+    @Value("${todays.message}")
+    private String message;
 
     @GetMapping("/hello")
     public String hello(Model model) {
@@ -32,6 +35,7 @@ public class HelloController {
         LOGGER.info("Hello2 {}", nonOptionArgs);
         Integer userCount = jdbcTemplate.queryForObject("select count(*) from users", Integer.class);
         model.addAttribute("count", userCount);
+        model.addAttribute("message", message);
         return "hello";
     }
 }
