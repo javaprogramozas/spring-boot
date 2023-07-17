@@ -1,6 +1,7 @@
 package hu.bearmaster.springtutorial.boot;
 
 import hu.bearmaster.springtutorial.boot.model.UserContext;
+import hu.bearmaster.springtutorial.boot.model.properties.PostProperties;
 import hu.bearmaster.springtutorial.boot.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.annotation.SessionScope;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootApplication
+@EnableConfigurationProperties(PostProperties.class)
 public class SpringBootTutorialApplication {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SpringBootTutorialApplication.class);

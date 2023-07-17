@@ -1,6 +1,7 @@
 package hu.bearmaster.springtutorial.boot.controller;
 
 import hu.bearmaster.springtutorial.boot.model.Post;
+import hu.bearmaster.springtutorial.boot.model.properties.PostProperties;
 import hu.bearmaster.springtutorial.boot.model.request.CreatePostRequest;
 import hu.bearmaster.springtutorial.boot.service.PostService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
 
     private final PostService postService;
+    private final PostProperties postProperties;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, PostProperties postProperties) {
         this.postService = postService;
+        this.postProperties = postProperties;
     }
 
     @GetMapping(value = "/post/{id}")
     public Post getPostById(@PathVariable long id) {
         Post post = postService.getPostById(id).orElse(null);
         return post;
+    }
+
+    @GetMapping(value = "/post/settings")
+    public PostProperties getPostSettings() {
+        return postProperties;
     }
 
     @PostMapping(value = "/post")
