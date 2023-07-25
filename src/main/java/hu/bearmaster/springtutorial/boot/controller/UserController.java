@@ -2,16 +2,20 @@ package hu.bearmaster.springtutorial.boot.controller;
 
 import hu.bearmaster.springtutorial.boot.model.User;
 import hu.bearmaster.springtutorial.boot.model.UserContext;
+import hu.bearmaster.springtutorial.boot.model.exception.NotFoundException;
 import hu.bearmaster.springtutorial.boot.model.request.CreateUserRequest;
 import hu.bearmaster.springtutorial.boot.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
@@ -42,7 +46,8 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public String getUserById(Model model, @PathVariable long id, HttpSession session) {
-        User user = userService.getUserById(id).orElse(null);
+        User user = userService.getUserById(id)
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
         model.addAttribute("user", user);
 
         if (user != null) {
@@ -63,5 +68,12 @@ public class UserController {
         User createdUser = userService.createUser(request);
         session.setAttribute("latestUser", createdUser);
         return "redirect:/user/" + createdUser.getId();
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public String handleNotFound(NotFoundException e, Model model) {
+        model.addAttribute("errorMessage", e.getMessage());
+        return "error/4xx";
     }
 }
