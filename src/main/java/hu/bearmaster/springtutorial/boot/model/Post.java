@@ -1,6 +1,7 @@
 package hu.bearmaster.springtutorial.boot.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import hu.bearmaster.springtutorial.boot.json.UserSerializer;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,7 +36,8 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "author_id")
-    @JsonIgnore
+    //@JsonIgnore
+    @JsonSerialize(using = UserSerializer.class)
     private User author;
 
     private String topic;
