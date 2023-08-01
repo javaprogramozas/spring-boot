@@ -4,20 +4,15 @@ import hu.bearmaster.springtutorial.boot.model.Post;
 import hu.bearmaster.springtutorial.boot.model.exception.NotFoundException;
 import hu.bearmaster.springtutorial.boot.model.properties.PostProperties;
 import hu.bearmaster.springtutorial.boot.model.request.CreatePostRequest;
-import hu.bearmaster.springtutorial.boot.model.response.ApiError;
 import hu.bearmaster.springtutorial.boot.service.PostService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Map;
 
 @RestController
 public class PostController {
@@ -47,5 +42,9 @@ public class PostController {
         return postService.createNewPost(request);
     }
 
-
+    @PostMapping("/post/report")
+    public ResponseEntity<Map<String, String>> generateReport() {
+        postService.generateReport();
+        return ResponseEntity.accepted().body(Map.of("message", "Report generation started"));
+    }
 }
