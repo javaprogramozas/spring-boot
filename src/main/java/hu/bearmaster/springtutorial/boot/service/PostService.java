@@ -5,12 +5,18 @@ import hu.bearmaster.springtutorial.boot.model.request.CreatePostRequest;
 import hu.bearmaster.springtutorial.boot.repository.PostRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class PostService {
@@ -47,6 +53,11 @@ public class PostService {
     @Async
     public void generateReport() {
         //taskExecutor.execute(this::reportGeneratorTask);
+        reportGeneratorTask();
+    }
+
+    @Scheduled(cron = "*/10 * * * * *")
+    public void scheduleReport() {
         reportGeneratorTask();
     }
 

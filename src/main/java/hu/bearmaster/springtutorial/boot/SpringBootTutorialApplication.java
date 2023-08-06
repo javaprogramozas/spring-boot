@@ -14,6 +14,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.Optional;
 @SpringBootApplication
 @EnableConfigurationProperties(PostProperties.class)
 @EnableAsync
+@EnableScheduling
 public class SpringBootTutorialApplication {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SpringBootTutorialApplication.class);

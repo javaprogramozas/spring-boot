@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -46,5 +47,11 @@ public class PostController {
     public ResponseEntity<Map<String, String>> generateReport() {
         postService.generateReport();
         return ResponseEntity.accepted().body(Map.of("message", "Report generation started"));
+    }
+
+    @PostMapping("/post/schedule")
+    public ResponseEntity<Map<String, String>> schedule(@RequestParam String cron) {
+        return ResponseEntity.accepted().body(
+                Map.of("message", "Report scheduled"));
     }
 }
