@@ -1,7 +1,10 @@
 package hu.bearmaster.springtutorial.boot.model.request;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class CreatePostRequest {
 
+    @NotBlank
     private String title;
 
     private String description;

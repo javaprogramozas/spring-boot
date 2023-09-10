@@ -3,6 +3,7 @@ package hu.bearmaster.springtutorial.boot.service;
 import hu.bearmaster.springtutorial.boot.model.Post;
 import hu.bearmaster.springtutorial.boot.model.request.CreatePostRequest;
 import hu.bearmaster.springtutorial.boot.repository.PostRepository;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.TaskScheduler;
@@ -10,6 +11,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -19,6 +21,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Validated
 public class PostService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PostService.class);
@@ -39,7 +42,7 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    public Post createNewPost(CreatePostRequest request) {
+    public Post createNewPost(@Valid CreatePostRequest request) {
         Post post = new Post();
         post.setTitle(request.getTitle());
         post.setDescription(request.getDescription());
@@ -56,7 +59,7 @@ public class PostService {
         reportGeneratorTask();
     }
 
-    @Scheduled(cron = "*/10 * * * * *")
+    //@Scheduled(cron = "*/10 * * * * *")
     public void scheduleReport() {
         reportGeneratorTask();
     }

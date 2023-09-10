@@ -5,6 +5,7 @@ import hu.bearmaster.springtutorial.boot.model.exception.NotFoundException;
 import hu.bearmaster.springtutorial.boot.model.properties.PostProperties;
 import hu.bearmaster.springtutorial.boot.model.request.CreatePostRequest;
 import hu.bearmaster.springtutorial.boot.service.PostService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +40,7 @@ public class PostController {
     }
 
     @PostMapping(value = "/post")
-    public Post createNewPost(@RequestBody CreatePostRequest request) {
+    public Post createNewPost(@RequestBody @Valid CreatePostRequest request) {
         return postService.createNewPost(request);
     }
 
