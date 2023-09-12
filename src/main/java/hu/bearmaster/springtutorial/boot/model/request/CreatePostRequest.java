@@ -1,5 +1,6 @@
 package hu.bearmaster.springtutorial.boot.model.request;
 
+import hu.bearmaster.springtutorial.boot.validation.LowerCase;
 import jakarta.validation.constraints.NotBlank;
 
 public class CreatePostRequest {
@@ -13,6 +14,7 @@ public class CreatePostRequest {
 
     private long authorId;
 
+    @LowerCase
     private String topic;
 
     public String getTitle() {
