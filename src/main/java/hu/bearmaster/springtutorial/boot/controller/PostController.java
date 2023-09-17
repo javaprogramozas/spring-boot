@@ -6,6 +6,9 @@ import hu.bearmaster.springtutorial.boot.model.properties.PostProperties;
 import hu.bearmaster.springtutorial.boot.model.request.CreatePostRequest;
 import hu.bearmaster.springtutorial.boot.service.PostService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,23 +17,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Locale;
 import java.util.Map;
 
 @RestController
 public class PostController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostController.class);
+
     private final PostService postService;
     private final PostProperties postProperties;
+    private final MessageSource messageSource;
 
-    public PostController(PostService postService, PostProperties postProperties) {
+    public PostController(PostService postService, PostProperties postProperties, MessageSource messageSource) {
         this.postService = postService;
         this.postProperties = postProperties;
+        this.messageSource = messageSource;
     }
 
     @GetMapping(value = "/post/{id}")
-    public Post getPostById(@PathVariable long id) {
+    public Post getPostById(@PathVariable long id,
+                            @RequestParam(required = false, defaultValue = "en", name = "locale") String requestLocale) {
+        Locale locale = new Locale(requestLocale);
+        LOGGER.info("Selected locale: {}", locale);
+        String message = messageSource.getMessage("post.not_found", new Object[]{id}, locale);
         Post post = postService.getPostById(id)
-                .orElseThrow(() -> new NotFoundException("Post not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException(message));
         return post;
     }
 
