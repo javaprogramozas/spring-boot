@@ -36,9 +36,7 @@ public class PostController {
     }
 
     @GetMapping(value = "/post/{id}")
-    public Post getPostById(@PathVariable long id,
-                            @RequestParam(required = false, defaultValue = "en", name = "locale") String requestLocale) {
-        Locale locale = new Locale(requestLocale);
+    public Post getPostById(@PathVariable long id, Locale locale) {
         LOGGER.info("Selected locale: {}", locale);
         String message = messageSource.getMessage("post.not_found", new Object[]{id}, locale);
         Post post = postService.getPostById(id)
