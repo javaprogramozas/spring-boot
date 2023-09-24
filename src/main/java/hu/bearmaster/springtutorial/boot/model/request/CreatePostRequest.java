@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public class CreatePostRequest {
 
-    @NotBlank
+    @NotBlank(message = "{cannot_be_blank}")
     private String title;
 
     private String description;
