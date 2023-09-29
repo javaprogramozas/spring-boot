@@ -4,6 +4,8 @@ import hu.bearmaster.springtutorial.boot.model.User;
 import hu.bearmaster.springtutorial.boot.model.UserContext;
 import hu.bearmaster.springtutorial.boot.model.exception.NotFoundException;
 import hu.bearmaster.springtutorial.boot.model.request.CreateUserRequest;
+import hu.bearmaster.springtutorial.boot.model.response.FactResponse;
+import hu.bearmaster.springtutorial.boot.service.UselessFactService;
 import hu.bearmaster.springtutorial.boot.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -26,10 +28,12 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
+    private final UselessFactService factService;
     private final UserContext userContext;
 
-    public UserController(UserService userService, UserContext userContext) {
+    public UserController(UserService userService, UselessFactService factService, UserContext userContext) {
         this.userService = userService;
+        this.factService = factService;
         this.userContext = userContext;
     }
 
@@ -41,6 +45,10 @@ public class UserController {
         model.addAttribute("highlighted", visitedUserId);
         LOGGER.info("User context: {}", userContext);
         LOGGER.info("Current user: {}", userContext.getCurrentUser());
+
+        FactResponse fact = factService.getFact();
+        model.addAttribute("fact", fact);
+
         return "users";
     }
 

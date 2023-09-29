@@ -9,6 +9,9 @@
             .highlight {
                 background-color: lightgray;
             }
+            .fact > a {
+                font-style: italic;
+            }
         </style>
     </head>
     <body>
@@ -37,5 +40,9 @@
         </table>
         <a href="add_user.html"
            th:href="@{/addUser}">Új felhasználó</a>
+        <p class="fact" th:id="${fact.id}">
+            <span th:text="${fact.text}">Useless fact here.</span><br>
+            <a th:href=${fact.sourceUrl} th:text="${fact.source}">(source)</a>
+        </p>
     </body>
 </html>
