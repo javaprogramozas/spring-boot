@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class UserController {
@@ -39,14 +40,14 @@ public class UserController {
 
     @GetMapping("/users")
     public String getAllUsers(Model model, @SessionAttribute(required = false) Long visitedUserId,
-                              @SessionAttribute(required = false) User latestUser) {
+                              @SessionAttribute(required = false) User latestUser, Locale locale) {
         List<User> users = userService.getUsers();
         model.addAttribute("users", users);
         model.addAttribute("highlighted", visitedUserId);
         LOGGER.info("User context: {}", userContext);
         LOGGER.info("Current user: {}", userContext.getCurrentUser());
 
-        FactResponse fact = factService.getFact();
+        FactResponse fact = factService.getFact("today", locale);
         model.addAttribute("fact", fact);
 
         return "users";

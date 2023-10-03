@@ -2,6 +2,8 @@ package hu.bearmaster.springtutorial.boot.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.StringJoiner;
+
 public class FactResponse {
 
     String id;
@@ -63,5 +65,17 @@ public class FactResponse {
 
     public void setPermalink(String permalink) {
         this.permalink = permalink;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", FactResponse.class.getSimpleName() + "[", "]")
+                .add("id='" + id + "'")
+                .add("text='" + text + "'")
+                .add("source='" + source + "'")
+                .add("sourceUrl='" + sourceUrl + "'")
+                .add("language='" + language + "'")
+                .add("permalink='" + permalink + "'")
+                .toString();
     }
 }

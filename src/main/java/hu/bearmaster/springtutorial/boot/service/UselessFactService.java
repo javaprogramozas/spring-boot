@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Locale;
+
 @Service
 public class UselessFactService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UselessFactService.class);
@@ -21,9 +23,12 @@ public class UselessFactService {
                 .build();
     }
 
-    public FactResponse getFact() {
+    public FactResponse getFact(String type, Locale locale) {
         ResponseEntity<FactResponse> response = webClient.get()
-                .uri("/api/v2/facts/random")
+                .uri(uriBuilder -> uriBuilder
+                        .path("/api/v2/facts/{type}")
+                        .queryParam("language", locale.getLanguage())
+                        .build(type))
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(FactResponse.class)
