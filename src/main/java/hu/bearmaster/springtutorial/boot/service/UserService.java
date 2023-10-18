@@ -1,10 +1,12 @@
 package hu.bearmaster.springtutorial.boot.service;
 
 import hu.bearmaster.springtutorial.boot.model.User;
+import hu.bearmaster.springtutorial.boot.model.UserStatus;
 import hu.bearmaster.springtutorial.boot.model.request.CreateUserRequest;
 import hu.bearmaster.springtutorial.boot.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -17,9 +19,11 @@ public class UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
+    private final UserStatus defaultStatus;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, Environment environment) {
         this.userRepository = userRepository;
+        this.defaultStatus = environment.getProperty("user.default-status", UserStatus.class);
     }
 
     public Optional<User> getUserById(long id) {
@@ -34,7 +38,7 @@ public class UserService {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setCreatedAt(ZonedDateTime.now());
-        user.setStatus(request.getStatus());
+        user.setStatus(Optional.ofNullable(request.getStatus()).orElse(defaultStatus));
 
         LOGGER.info("Creating new user: {}", user);
         return userRepository.save(user);
