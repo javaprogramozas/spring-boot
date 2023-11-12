@@ -1,0 +1,25 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/api/v2/facts/today",
+    "queryParameters": {
+      "language": {
+        "equalTo": "en"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "id": "test-id",
+      "text": "This is a test fact",
+      "source": "test source",
+      "source_url": "http://test.url/",
+      "language": "en",
+      "permalink": "http://permalink.test.url/"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
